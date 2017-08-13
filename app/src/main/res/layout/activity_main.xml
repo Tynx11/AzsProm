@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Promneft"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="8dp"/>
+
+    <EditText
+        android:id="@+id/adress_View"
+        android:padding="8dp"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:hint="Вставьте ссылку личного кабинета"
+        />
+    <Button
+        android:id="@+id/go_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="8dp"
+        android:text="GO!"/>
+
+
+</RelativeLayout>

@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
     // TODO:  Инициализация
     Button goBtn;
@@ -23,14 +25,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private final String ADRESS ="123151";
+    private final String proverka ="//lk.promneft.ru";
+    private final String dsa =":";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (sPref !=  null ) {
+            loadPref();
 
-        loadPref();
+        }
+
         goBtn = (Button) findViewById(R.id.go_btn);
         adress_view = (EditText) findViewById(R.id.adress_View);
 
@@ -39,26 +46,34 @@ public class MainActivity extends AppCompatActivity {
         goBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savePref();
-                if (adress_view.getText().toString() != null || adress_view.getText().toString() != ""){
-                    String str = adress_view.getText().toString();
-                    String[] parts = str.split(":");
-                    if (parts[1] == "//lk.promneft.ru") {
+               savePref();
+                String str = adress_view.getText().toString();
+                String[] parts = str.split(dsa);
+                if (parts.length > 1) {
+                    if (parts[1].equals(proverka)) {
                         // TODO: 12.08.2017 Проверка прошла, делаем интент с ссылкой.
-                        Intent mainPageIntent = new Intent(MainActivity.this,MainPage.class);
-                        mainPageIntent.putExtra(ADRESS,adress_view.getText().toString());
+                        Intent mainPageIntent = new Intent(MainActivity.this, MainPage.class);
+                        mainPageIntent.putExtra(ADRESS, adress_view.getText().toString());
                         startActivity(mainPageIntent);
+                        finish();
+                    } else {
+                        // TODO: 13.08.2017 Сделать обработку в случае невернного ввода ссылки
+                        Toast error = Toast.makeText(getApplicationContext(), "Неверная ссылка!", Toast.LENGTH_LONG);
+                        error.show();
                     }
+                } else {
                     // TODO: 13.08.2017 Сделать обработку в случае невернного ввода ссылки
-                    Toast error = Toast.makeText(getApplicationContext(), "Неверная ссылка!",Toast.LENGTH_LONG);
+                    Toast error = Toast.makeText(getApplicationContext(), "Неверная ссылка!", Toast.LENGTH_LONG);
                     error.show();
                 }
+
 
 
             }
         });
 
     }
+
     private void savePref () {
         sPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
